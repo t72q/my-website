@@ -1,263 +1,354 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>برا السالفة.. بس ما أدري — لعبة حفلات</title>
   <style>
     :root{
-      --bg:#7c93d8; --card:#f3f5ff; --ink:#ffffff; --dark:#1b1f3a; --muted:#b9c3ef;
-      --primary:#f7a61a; --primary-ink:#ffffff; --accent:#a21c49; --shadow:0 8px 18px rgba(0,0,0,.15);
+      /* لوحة زرقاء هادئة */
+      --bg:#aec6ff;
+      --bg2:#95b6ff;
+      --card:#f6f8ff;
+      --ink:#1c2848;
+      --muted:#5d6d9b;
+      --primary:#5BA3F7;      /* الأزرق الأساسي */
+      --primary-ink:#ffffff;
+      --accent:#2f64c8;
+      --shadow:0 8px 18px rgba(0,0,0,.12);
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Kufi Arabic",Tahoma,Arial}
-    .app{max-width:980px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px}
-header .home{background:#c03b6a;border:none;color:#fff;width:44px;height:44px;border-radius:999px;display:grid;place-items:center;box-shadow:var(--shadow);cursor:pointer}
-header .milk{font-weight:700;opacity:.9}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Kufi Arabic",Tahoma,Arial}
+    .app{max-width:980px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
 
-.container{flex:1;padding:14px}
-h1,h2,h3{margin:0 0 12px} h1{font-size:28px} h2{font-size:22px} p{color:var(--muted)}
+    header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px}
+    header .home{background:var(--accent);border:none;color:#fff;width:44px;height:44px;border-radius:999px;display:grid;place-items:center;box-shadow:var(--shadow);cursor:pointer}
+    header .milk{font-weight:700;opacity:.9}
 
-.title{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-.title .logo{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#c03b6a;font-weight:900;box-shadow:var(--shadow)}
-.subtitle{opacity:.9;font-size:12px;color:#3b437a}
+    .container{flex:1;padding:14px}
 
-.card{background:var(--card);color:var(--dark);border:0;border-radius:18px;padding:16px;margin:12px 0;box-shadow:var(--shadow)}
+    h1,h2,h3{margin:0 0 12px}
+    h1{font-size:28px}
+    h2{font-size:22px}
+    p{color:var(--muted)}
 
-button{cursor:pointer;border:none}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;border-radius:16px;font-size:18px;font-weight:800;box-shadow:0 6px 0 rgba(0,0,0,.18);transition:transform .05s ease-in}
-.btn:active{transform:translateY(2px)}
-.btn-primary{background:var(--primary);color:var(--primary-ink)}
-.btn-secondary{background:#e8ecff;color:#1b1f3a}
-.btn-ghost{background:rgba(255,255,255,.14);color:#fff}
+    .title{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+    .title .logo{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:var(--primary);color:#fff;font-weight:900;box-shadow:var(--shadow)}
+    .subtitle{opacity:.95;font-size:12px;color:#2d3a63}
 
-input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:2px solid transparent;outline:none;background:#fff;color:#111}
-input:focus,select:focus,textarea:focus{border-color:#ffe29a}
+    .card{background:var(--card);color:var(--ink);border:0;border-radius:18px;padding:16px;margin:12px 0;box-shadow:var(--shadow)}
 
-.row{display:flex;gap:12px;flex-wrap:wrap}
-.col{flex:1 1 240px}
-.list{display:flex;gap:8px;flex-wrap:wrap}
+    button{cursor:pointer;border:none}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;border-radius:16px;font-size:18px;font-weight:800;box-shadow:0 6px 0 rgba(0,0,0,.12);transition:transform .05s ease-in}
+    .btn:active{transform:translateY(2px)}
+    .btn-primary{background:var(--primary);color:var(--primary-ink)}
+    .btn-secondary{background:#e5ecff;color:#1c2848}
+    .btn-ghost{background:rgba(255,255,255,.35);color:#1c2848}
 
-.pill{padding:12px 16px;border-radius:999px;background:#e8ecff;color:#1b1f3a;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow)}
-.pill button{width:auto;padding:6px 10px;border-radius:10px;background:#ffb84a;color:#222}
+    input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:2px solid transparent;outline:none;background:#fff;color:#111}
+    input:focus,select:focus,textarea:focus{border-color:#b9ceff}
 
-.hidden{display:none}
-.grid{display:grid;gap:10px}
-.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1 1 240px}
+    .list{display:flex;gap:8px;flex-wrap:wrap}
 
-.hr{height:1px;background:#dde2ff;margin:14px 0}
-.footer{opacity:.9;font-size:12px;color:#3b437a}
-.big{font-size:22px;color:#1b1f3a}
-.word-flash{font-weight:900;font-size:34px;letter-spacing:1px;color:#c03b6a}
+    .pill{padding:12px 16px;border-radius:999px;background:#e9efff;color:#1c2848;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow)}
+    .pill button{width:auto;padding:6px 10px;border-radius:10px;background:#d6e2ff;color:#1c2848}
 
-.badge{display:inline-block;padding:6px 10px;border-radius:12px;background:#ffe29a;color:#402d00;font-weight:800}
-.score{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:12px;background:#e8ecff;color:#1b1f3a}
+    .hidden{display:none}
+    .grid{display:grid;gap:10px}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 
-.bottom{display:flex;gap:10px;justify-content:center;margin-top:8px}
+    .hr{height:1px;background:#d9e2ff;margin:14px 0}
+    .footer{opacity:.9;font-size:12px;color:#3a4b7e}
+    .big{font-size:22px}
+    .word-flash{font-weight:900;font-size:34px;letter-spacing:1px;color:var(--accent)}
 
-.handoff-box{background:#fff;color:#111;border-radius:18px;padding:18px;box-shadow:var(--shadow)}
-.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-.choice{background:#fff;border:2px solid #e6eaff;border-radius:14px;padding:12px;font-weight:800;cursor:pointer}
-.choice.selected{border-color:#f7a61a;background:#fff7e6}
+    .badge{display:inline-block;padding:6px 10px;border-radius:12px;background:#d6e2ff;color:#1c2848;font-weight:800}
+    .score{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:12px;background:#e9efff;color:#1c2848}
 
+    .bottom{display:flex;gap:10px;justify-content:center;margin-top:8px}
+
+    .handoff-box{background:#fff;color:#111;border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+    .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .choice{background:#fff;border:2px solid #e6eaff;border-radius:14px;padding:12px;font-weight:800;cursor:pointer}
+    .choice.selected{border-color:var(--primary);background:#eef4ff}
+
+    .candidates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .candidate{background:#fff;border:2px solid #e6eaff;border-radius:14px;padding:12px;font-weight:800;cursor:pointer}
+    .candidate.disabled{opacity:.5;pointer-events:none}
+    .candidate.selected{border-color:var(--primary);background:#eef4ff}
+
+    /* صفحة الدور البسيطة */
+    .role-page{display:grid;place-items:center;text-align:center;min-height:46vh}
+    .role-text{font-size:22px;line-height:1.8;color:#1c2848}
+
+    @media (max-width:480px){
+      .btn{width:100%}
+    }
   </style>
 </head>
 <body>
   <div class="app">
     <header>
-      <button class="home" id="homeBtn" title="الصفحة الرئيسية">🏠</button>
+      <button class="home" id="homeBtn" title="الصفحة الرئيسية" type="button">🏠</button>
       <div class="milk">450 🥛</div>
     </header>
     <div class="container">
       <div class="title">
         <div class="logo">🕵️</div>
         <div>
-          <h1 style="color:#ffcf5b;letter-spacing:1px;text-shadow:0 2px 0 rgba(0,0,0,.08)">برا السالفة.. بس ما أدري!</h1>
+          <h1 style="color:#0b2a6f;letter-spacing:1px;text-shadow:0 2px 0 rgba(0,0,0,.05)">برا السالفة.. بس ما أدري!</h1>
           <div class="subtitle">جلسة واقعية باستخدام الجوال: نحدد من يسأل من — بدون أسئلة تلقائية</div>
         </div>
-      </div><!-- STEP 1: NAMES -->
-  <div id="view-names" class="card">
-    <h2>أسماء اللاعبين</h2>
-    <div class="row" style="align-items:flex-end">
-      <div class="col">
-        <label>أضف اسم لاعب</label>
-        <input id="nameInput" placeholder="مثال: طارق">
       </div>
-      <div class="col" style="max-width:200px">
-        <button id="addNameBtn" class="btn btn-ghost">➕ إضافة</button>
+
+      <!-- STEP 1: NAMES -->
+      <div id="view-names" class="card">
+        <h2>أسماء اللاعبين</h2>
+        <div class="row" style="align-items:flex-end">
+          <div class="col">
+            <label>أضف اسم لاعب</label>
+            <input id="nameInput" placeholder="مثال: طارق">
+          </div>
+          <div class="col" style="max-width:200px">
+            <button id="addNameBtn" class="btn btn-ghost" type="button">➕ إضافة</button>
+          </div>
+        </div>
+        <div class="hr"></div>
+        <div id="namesList" class="list"></div>
+        <div class="hr"></div>
+        <div class="bottom">
+          <button id="toCategory" class="btn btn-primary" type="button">التالي: اختيار التصنيف</button>
+          <button id="clearNames" class="btn btn-secondary" type="button">مسح الأسماء</button>
+        </div>
+        <p class="footer">يجب إضافة 3 لاعبين على الأقل.</p>
+      </div>
+
+      <!-- STEP 2: CATEGORY & PAIRING -->
+      <div id="view-category" class="card hidden">
+        <h2>اختر التصنيف وطريقة الكلمات</h2>
+        <div class="row">
+          <div class="col">
+            <label>التصنيف</label>
+            <select id="categorySelect"></select>
+          </div>
+          <div class="col">
+            <label>عدد الأدوار الحوارية قبل التصويت</label>
+            <select id="turnCount">
+              <option value="4">4</option>
+              <option value="6" selected>6</option>
+              <option value="8">8</option>
+            </select>
+          </div>
+          <div class="col">
+            <label>طريقة الاختيار</label>
+            <select id="pairMode">
+              <option value="random" selected>عشوائي</option>
+              <option value="manual">اختيار يدوي</option>
+            </select>
+          </div>
+        </div>
+        <div id="manualPairs" class="row hidden">
+          <div class="col">
+            <label>الكلمة الأساسية (للأغلبية)</label>
+            <input id="baseWord" placeholder="مثال: قهوة">
+          </div>
+          <div class="col">
+            <label>كلمة المختلف (قريبة من الأساسية)</label>
+            <input id="oddWord" placeholder="مثال: شاي">
+          </div>
+        </div>
+        <div class="hr"></div>
+        <div class="bottom">
+          <button class="btn btn-secondary" id="backToNames" type="button">رجوع</button>
+          <button id="startRound" class="btn btn-primary" type="button">ابدأ الجولة</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: PRIVATE REVEAL (SEQUENTIAL) -->
+      <div id="view-reveal" class="card hidden">
+        <h2>تمرير الجهاز لكل لاعب</h2>
+        <div id="handoffBox" class="handoff-box">
+          <div id="handoffText" class="big">—</div>
+          <div class="hr"></div>
+          <button id="revealBtn" class="btn btn-primary" style="width:100%" type="button">عرض الكلمة</button>
+          <div id="wordShown" class="word-flash center hidden" style="margin-top:8px"></div>
+          <div id="hint" class="footer center hidden">سيختفي خلال 3 ثوانٍ — لا تدع أحدًا يرى الشاشة</div>
+        </div>
+        <div class="bottom">
+          <button class="btn btn-secondary" id="revealBack" type="button">رجوع</button>
+          <button class="btn btn-secondary" id="toDialogue" type="button" disabled>ابدأ الجولة الحوارية</button>
+        </div>
+      </div>
+
+      <!-- NEW: ROLE INFO (neutral text + next) -->
+      <div id="view-roleinfo" class="card hidden role-page">
+        <div>
+          <h2 id="roleTitle" style="text-align:center">معلومات دورك</h2>
+          <p id="roleInfoText" class="role-text">—</p>
+          <div class="bottom">
+            <button id="roleInfoNext" class="btn btn-primary" style="width:100%" type="button">التالي</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIALOGUE (NO QUESTIONS) -->
+      <div id="view-dialogue" class="card hidden">
+        <div class="row" style="align-items:center;justify-content:space-between">
+          <h2>أدوار الحوار <span class="badge" id="tProgress">0/0</span></h2>
+          <div class="badge" id="currentCategory">تصنيف</div>
+        </div>
+        <div class="hr"></div>
+        <div class="card" style="text-align:center">
+          <div class="big" style="margin-bottom:6px">الدور الآن:</div>
+          <div id="pairText" class="word-flash" style="margin:6px 0 10px">—</div>
+          <div class="subtitle">(يتكلم <span id="askerName" class="badge"></span> ويوجّه سؤالًا لـ <span id="targetName" class="badge"></span>)</div>
+        </div>
+        <div class="bottom">
+          <button id="nextPair" class="btn btn-primary" type="button">الدور التالي</button>
+          <button class="btn btn-secondary" id="goVote" type="button">انتقال للتصويت</button>
+        </div>
+        <p class="footer">التطبيق لا يطرح أسئلة؛ فقط يحدد من يسأل من في كل دور.</p>
+      </div>
+
+      <!-- VOTE (sequential & private) -->
+      <div id="view-vote" class="card hidden">
+        <h2>التصويت (سري)</h2>
+        <div class="handoff-box">
+          <div id="votePassText" class="big">📱 أعطوا الجوال —</div>
+          <div class="hr"></div>
+          <div id="voteChoices" class="candidates"></div>
+          <div class="bottom">
+            <button class="btn btn-primary" id="voteConfirm" disabled type="button">تأكيد تصويتي</button>
+          </div>
+        </div>
+        <p class="footer">ملاحظة: لا أحد يشوف شاشة غيره أثناء التصويت.</p>
+      </div>
+
+      <!-- SECRET PASS AFTER VOTE (generic for all) -->
+      <div id="view-secret" class="card hidden">
+        <h2>تم التصويت ✅</h2>
+        <div class="handoff-box">
+          <div id="secretPassText" class="big">📱 أعطوا الجوال —</div>
+          <div class="hr"></div>
+          <button id="secretNext" class="btn btn-primary" style="width:100%" type="button">التالي</button>
+        </div>
+        <p class="footer">لن يُكشف اسم المختلف — اتّبع التعليمات على الجوال فقط.</p>
+      </div>
+
+      <!-- GUESS SCREEN (only for the real odd; neutral text) -->
+      <div id="view-guess" class="card hidden">
+        <h2>تخمين الكلمة المشتركة 🎯</h2>
+        <p class="subtitle">اختر ما تعتقد أنه الكلمة التي ظهرت لبقية اللاعبين</p>
+        <div id="choices" class="choices"></div>
+        <div class="bottom">
+          <button id="confirmGuess" class="btn btn-primary" disabled style="width:100%" type="button">تأكيد الاختيار</button>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <div id="view-result" class="card hidden">
+        <h2>انتهت الجولة ✅</h2>
+        <div id="resultSummary" class="grid"></div>
+        <div class="hr"></div>
+        <div class="bottom">
+          <button class="btn btn-ghost" id="newRoundSame" type="button">جولة جديدة (نفس اللاعبين)</button>
+          <button id="newRoundReset" class="btn btn-primary" type="button">إعداد جديد</button>
+        </div>
+      </div>
+
+      <!-- SCOREBOARD -->
+      <div id="view-score" class="card hidden">
+        <h2>النتائج المتراكمة</h2>
+        <div id="scoreList" class="list" style="flex-direction:column"></div>
       </div>
     </div>
-    <div class="hr"></div>
-    <div id="namesList" class="list"></div>
-    <div class="hr"></div>
-    <div class="bottom">
-      <button id="toCategory" class="btn btn-primary">التالي: اختيار التصنيف</button>
-      <button id="clearNames" class="btn btn-secondary">مسح الأسماء</button>
-    </div>
-    <p class="footer">يجب إضافة 3 لاعبين على الأقل.</p>
   </div>
 
-  <!-- STEP 2: CATEGORY & PAIRING -->
-  <div id="view-category" class="card hidden">
-    <h2>اختر التصنيف وطريقة الكلمات</h2>
-    <div class="row">
-      <div class="col">
-        <label>التصنيف</label>
-        <select id="categorySelect"></select>
-      </div>
-      <div class="col">
-        <label>عدد الأدوار الحوارية قبل التصويت</label>
-        <select id="turnCount">
-          <option value="4">4</option>
-          <option value="6" selected>6</option>
-          <option value="8">8</option>
-        </select>
-      </div>
-      <div class="col">
-        <label>طريقة الاختيار</label>
-        <select id="pairMode">
-          <option value="random" selected>عشوائي</option>
-          <option value="manual">اختيار يدوي</option>
-        </select>
-      </div>
-    </div>
-    <div id="manualPairs" class="row hidden">
-      <div class="col">
-        <label>الكلمة الأساسية (للأغلبية)</label>
-        <input id="baseWord" placeholder="مثال: قهوة">
-      </div>
-      <div class="col">
-        <label>كلمة المختلف (قريبة من الأساسية)</label>
-        <input id="oddWord" placeholder="مثال: شاي">
-      </div>
-    </div>
-    <div class="hr"></div>
-    <div class="bottom">
-      <button class="btn btn-secondary" id="backToNames">رجوع</button>
-      <button id="startRound" class="btn btn-primary">ابدأ الجولة</button>
-    </div>
-  </div>
-
-  <!-- STEP 3: PRIVATE REVEAL (SEQUENTIAL) -->
-  <div id="view-reveal" class="card hidden">
-    <h2>تمرير الجهاز لكل لاعب</h2>
-    <div id="handoffBox" class="handoff-box">
-      <div id="handoffText" class="big">—</div>
-      <div class="hr"></div>
-      <button id="revealBtn" class="btn btn-primary" style="width:100%">عرض الكلمة</button>
-      <div id="wordShown" class="word-flash center hidden" style="margin-top:8px"></div>
-      <div id="hint" class="footer center hidden">سيختفي خلال 3 ثوانٍ — لا تدع أحدًا يرى الشاشة</div>
-    </div>
-    <div class="bottom">
-      <button class="btn btn-secondary" id="revealBack">رجوع</button>
-      <button class="btn btn-primary" id="revealNext">التالي</button>
-      <button class="btn btn-secondary" id="toDialogue" disabled>ابدأ الجولة الحوارية</button>
-    </div>
-  </div>
-
-  <!-- DIALOGUE (NO QUESTIONS) -->
-  <div id="view-dialogue" class="card hidden">
-    <div class="row" style="align-items:center;justify-content:space-between">
-      <h2>أدوار الحوار <span class="badge" id="tProgress">0/0</span></h2>
-      <div class="badge" id="currentCategory">تصنيف</div>
-    </div>
-    <div class="hr"></div>
-    <div class="card" style="text-align:center">
-      <div class="big" style="margin-bottom:6px">الدور الآن:</div>
-      <div id="pairText" class="word-flash" style="margin:6px 0 10px">—</div>
-      <div class="subtitle">(يتكلم <span id="askerName" class="badge"></span> ويوجّه سؤالًا لـ <span id="targetName" class="badge"></span>)</div>
-    </div>
-    <div class="bottom">
-      <button id="nextPair" class="btn btn-primary">الدور التالي</button>
-      <button class="btn btn-secondary" id="goVote">انتقال للتصويت</button>
-    </div>
-    <p class="footer">ملاحظة: التطبيق لن يطرح أسئلة. فقط يحدد من يسأل من في كل دور.</p>
-  </div>
-
-  <!-- VOTE -->
-  <div id="view-vote" class="card hidden">
-    <h2>التصويت: مين برا السالفة؟</h2>
-    <div id="voteArea" class="list" style="flex-direction:column"></div>
-    <div class="hr"></div>
-    <div class="bottom">
-      <button class="btn btn-secondary" id="backToDialogue">رجوع للأدوار</button>
-      <button id="submitVotes" class="btn btn-primary">اعتماد التصويت</button>
-    </div>
-  </div>
-
-  <!-- SECRET PASS AFTER VOTE (mask the odd) -->
-  <div id="view-secret" class="card hidden">
-    <h2>تم التصويت ✅</h2>
-    <div class="handoff-box">
-      <div id="secretPassText" class="big">📱 أعطوا الجوال —</div>
-      <div class="hr"></div>
-      <button id="secretNext" class="btn btn-primary" style="width:100%">التالي</button>
-    </div>
-    <p class="footer">لن يُكشف اسم المختلف هنا — اتّبع التعليمات على الجوال فقط.</p>
-  </div>
-
-  <!-- GUESS SCREEN (shown only to the real odd) -->
-  <div id="view-guess" class="card hidden">
-    <h2>تخمين الكلمة المشتركة 🎯</h2>
-    <p class="subtitle">اختر ما تعتقد أنه الكلمة التي ظهرت لبقية اللاعبين</p>
-    <div id="choices" class="choices"></div>
-    <div class="bottom">
-      <button id="confirmGuess" class="btn btn-primary" disabled>تأكيد الاختيار</button>
-    </div>
-  </div>
-
-  <!-- RESULT -->
-  <div id="view-result" class="card hidden">
-    <h2>النتيجة</h2>
-    <div id="resultSummary" class="grid"></div>
-    <div class="hr"></div>
-    <div class="bottom">
-      <button class="btn btn-ghost" id="newRoundSame">جولة جديدة (نفس اللاعبين)</button>
-      <button id="newRoundReset" class="btn btn-primary">إعداد جديد</button>
-    </div>
-  </div>
-
-  <!-- SCOREBOARD -->
-  <div id="view-score" class="card hidden">
-    <h2>النتائج المتراكمة</h2>
-    <div id="scoreList" class="list" style="flex-direction:column"></div>
-  </div>
-</div>
-
-  </div>  <script>
-  const PACKS = {"حيوانات":[["أسد","نمر"],["ذئب","كلب"],["قطة","أرنب"],["حصان","حمار"],["فيل","فرس النهر"],["جمل","لاما"],["صقر","نسر"],["دلفين","حوت"],["تمساح","سحلية"],["غزال","مها"]],"أكلات ومشروبات":[["بيتزا","برجر"],["شاورما","فاهيتا"],["قهوة","شاي"],["عصير برتقال","عصير مانجو"],["كابتشينو","لاتيه"],["رز","مكرونة"],["كعك","دونات"],["ماء غازي","عصير غازي"],["فول","حمص"],["عسل","دبس"]],"أماكن ومدن":[["باريس","لندن"],["مكة","المدينة"],["طوكيو","سول"],["الرياض","جدة"],["الصحراء","الواحة"],["شاطئ","مسبح"],["جامعة","مدرسة"],["مستشفى","عيادة"],["برج","قلعة"],["حديقة","محمية"]],"أشياء يومية":[["جوال","تابلت"],["مكيف","مروحة"],["قلم","ماركر"],["كرسي","أريكة"],["ريموت","يد تحكم"],["سماعات","سبيكر"],["حاسوب محمول","حاسوب مكتبي"],["مصباح","شمعة"],["ساعة يد","سوار ذكي"],["دراجة","سكوتر"]]};
-
-  // ===== State =====
-  let state = {
-    players: [], scores: {}, category: null,
-    pair: null, oddIndex: null,
-    asked: 0, maxTurns: 6,
-    votes: {}, revealIdx: 0, revealed: {},
-    turnAskers: [],
-    // secret stage
-    secretIdx: 0, secretPhase: 0, // 0: show pass, 1: private content, then advance
-    guessOptions: [], selectedGuess: null, guessCorrect: null
+  <script>
+  // حزم كلمات ثنائية (Base/Odd) — مع تصنيف الحيوانات ضمن القائمة
+  const PACKS = {
+    "حيوانات":[["أسد","نمر"],["ذئب","كلب"],["قطة","أرنب"],["حصان","حمار"],["فيل","فرس النهر"],["جمل","لاما"],["صقر","نسر"],["دلفين","حوت"],["تمساح","سحلية"],["غزال","مها"]],
+    "أكلات ومشروبات":[["بيتزا","برجر"],["شاورما","فاهيتا"],["قهوة","شاي"],["عصير برتقال","عصير مانجو"],["كابتشينو","لاتيه"],["رز","مكرونة"],["كعك","دونات"],["ماء غازي","عصير غازي"],["فول","حمص"],["عسل","دبس"]],
+    "أماكن ومدن":[["باريس","لندن"],["مكة","المدينة"],["طوكيو","سول"],["الرياض","جدة"],["الصحراء","الواحة"],["شاطئ","مسبح"],["جامعة","مدرسة"],["مستشفى","عيادة"],["برج","قلعة"],["حديقة","محمية"]],
+    "أشياء يومية":[["جوال","تابلت"],["مكيف","مروحة"],["قلم","ماركر"],["كرسي","أريكة"],["ريموت","يد تحكم"],["سماعات","سبيكر"],["حاسوب محمول","حاسوب مكتبي"],["مصباح","شمعة"],["ساعة يد","سوار ذكي"],["دراجة","سكوتر"]]
   };
 
-  // ===== Helpers =====
+  // ===== الحالة العامة =====
+  let state = {
+    players: [],
+    scores: {},
+    category: null,
+    pair: null,          // { base, odd }
+    oddIndex: null,      // رقم اللاعب اللي عنده الكلمة المختلفة
+    asked: 0,            // عداد أدوار الحوار
+    maxTurns: 6,
+    votes: {},
+    revealIdx: 0,
+    revealed: {},
+    turnAskers: [],
+    // التصويت بالتناوب
+    voteIdx: 0,
+    // المرحلة السرّية
+    secretIdx: 0,
+    secretPhase: 0,      // 0: أعطوا الجوال فلان / 1: شاشة خاصة أو تخمين
+    guessOptions: [],
+    selectedGuess: null,
+    guessCorrect: null
+  };
+
+  // ===== أدوات مساعدة =====
   const $ = sel => document.querySelector(sel);
   const el = (t,c,h) => {const e=document.createElement(t); if(c) e.className=c; if(h!==undefined) e.innerHTML=h; return e;};
   const shuffle = arr => arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
-  const choice = arr => arr[Math.floor(Math.random()*arr.length)];
+  const choice  = arr => arr[Math.floor(Math.random()*arr.length)];
 
   function saveScores(){ localStorage.setItem('bsb_scores', JSON.stringify(state.scores)); }
   function loadScores(){ const s=localStorage.getItem('bsb_scores'); if(s) state.scores = JSON.parse(s); }
-  function renderScores(){ const box=$('#scoreList'); if(!box) return; box.innerHTML=''; Object.entries(state.scores).sort((a,b)=>b[1]-a[1]).forEach(([n,pts])=> box.appendChild(el('div','score',`<strong>${n}</strong><span>${pts} نقطة</span>`)) ); $('#view-score').classList.toggle('hidden', !Object.keys(state.scores).length); }
-  function setView(id){ ['#view-names','#view-category','#view-reveal','#view-dialogue','#view-vote','#view-secret','#view-guess','#view-result'].forEach(s=>$(s).classList.add('hidden')); $(id).classList.remove('hidden'); }
+  function renderScores(){
+    const box=$('#scoreList'); if(!box) return;
+    box.innerHTML='';
+    Object.entries(state.scores).sort((a,b)=>b[1]-a[1]).forEach(([n,pts])=>{
+      box.appendChild(el('div','score',`<strong>${n}</strong><span>${pts} نقطة</span>`));
+    });
+    $('#view-score').classList.toggle('hidden', !Object.keys(state.scores).length);
+  }
+  function setView(id){
+    ['#view-names','#view-category','#view-reveal','#view-roleinfo','#view-dialogue','#view-vote','#view-secret','#view-guess','#view-result']
+      .forEach(s=>$(s).classList.add('hidden'));
+    $(id).classList.remove('hidden');
+  }
 
-  // ===== Names =====
-  function renderNames(){ const list=$('#namesList'); list.innerHTML=''; state.players.forEach((n,i)=>{ const pill=el('div','pill'); pill.appendChild(el('span',null,n)); const del=el('button',null,'حذف'); del.onclick=()=>{state.players.splice(i,1); renderNames();}; pill.appendChild(del); list.appendChild(pill);}); }
-  $('#addNameBtn')?.addEventListener('click',()=>{ const v=$('#nameInput').value.trim(); if(!v) return; if(state.players.includes(v)) return alert('الاسم مكرر'); state.players.push(v); $('#nameInput').value=''; renderNames(); });
+  // ===== الأسماء =====
+  function renderNames(){
+    const list=$('#namesList'); list.innerHTML='';
+    state.players.forEach((n,i)=>{
+      const pill=el('div','pill');
+      pill.appendChild(el('span',null,n));
+      const del=el('button',null,'حذف'); del.type='button';
+      del.onclick=()=>{state.players.splice(i,1); renderNames();};
+      pill.appendChild(del); list.appendChild(pill);
+    });
+  }
+  $('#addNameBtn')?.addEventListener('click',()=>{
+    const v=$('#nameInput').value.trim(); if(!v) return;
+    if(state.players.includes(v)) return alert('الاسم مكرر');
+    state.players.push(v); $('#nameInput').value=''; renderNames();
+  });
   $('#clearNames')?.addEventListener('click',()=>{ state.players=[]; renderNames(); });
-  $('#toCategory')?.addEventListener('click',()=>{ if(state.players.length<3) return alert('أضف 3 لاعبين على الأقل'); loadScores(); state.players.forEach(n=>{ if(!(n in state.scores)) state.scores[n]=0; }); renderScores(); buildCategoryUI(); setView('#view-category'); });
+  $('#toCategory')?.addEventListener('click',()=>{
+    if(state.players.length<3) return alert('أضف 3 لاعبين على الأقل');
+    loadScores(); state.players.forEach(n=>{ if(!(n in state.scores)) state.scores[n]=0; });
+    renderScores(); buildCategoryUI(); setView('#view-category');
+  });
 
-  function buildCategoryUI(){ const sel=$('#categorySelect'); sel.innerHTML=''; Object.keys(PACKS).forEach(k=>{ const o=document.createElement('option'); o.value=k; o.textContent=k; sel.appendChild(o);}); }
-  $('#pairMode')?.addEventListener('change',e=> $('#manualPairs').classList.toggle('hidden', e.target.value!=='manual') );
+  function buildCategoryUI(){
+    const sel=$('#categorySelect'); sel.innerHTML='';
+    Object.keys(PACKS).forEach(k=>{ const o=document.createElement('option'); o.value=k; o.textContent=k; sel.appendChild(o);});
+  }
+  $('#pairMode')?.addEventListener('change',e=> $('#manualPairs').classList.toggle('hidden', e.target.value!=='manual'));
   $('#backToNames')?.addEventListener('click',()=> setView('#view-names'));
 
   $('#startRound')?.addEventListener('click',()=>{
@@ -265,124 +356,214 @@ input:focus,select:focus,textarea:focus{border-color:#ffe29a}
     state.category = $('#categorySelect').value;
     let base, odd;
     if($('#pairMode').value==='manual'){
-      base=$('#baseWord').value.trim(); odd=$('#oddWord').value.trim(); if(!base||!odd) return alert('املأ الكلمتين');
+      base=$('#baseWord').value.trim(); odd=$('#oddWord').value.trim();
+      if(!base||!odd) return alert('املأ الكلمتين');
     } else {
       const p=choice(PACKS[state.category]); [base,odd] = Math.random()<.5 ? p : [p[1],p[0]];
     }
-    state.pair={base,odd}; state.oddIndex=Math.floor(Math.random()*state.players.length);
-    state.asked=0; state.votes={}; state.revealIdx=0; state.revealed={}; state.turnAskers=shuffle([...state.players]);
+    state.pair={base,odd};
+    state.oddIndex=Math.floor(Math.random()*state.players.length);
+    state.asked=0; state.votes={}; state.revealIdx=0; state.revealed={};
+    state.turnAskers=shuffle([...state.players]);
     buildRevealSequential(); setView('#view-reveal');
   });
 
-  // ===== Reveal =====
-  function buildRevealSequential(){ updateHandoffText(); $('#wordShown').classList.add('hidden'); $('#hint').classList.add('hidden'); }
-  function updateHandoffText(){ const name=state.players[state.revealIdx]; $('#handoffText').innerHTML=`📱 <strong>أعطوا الجهاز <span class="badge">${name}</span></strong>`; $('#revealBtn').disabled=false; }
-  $('#revealBtn')?.addEventListener('click',()=>{ const i=state.revealIdx; const word=(i===state.oddIndex)?state.pair.odd:state.pair.base; const w=$('#wordShown'); w.textContent=word; w.classList.remove('hidden'); $('#hint').classList.remove('hidden'); $('#revealBtn').disabled=true; state.revealed[state.players[i]]=true; setTimeout(()=>{ w.classList.add('hidden'); $('#hint').classList.add('hidden'); },3000); });
-  $('#revealNext')?.addEventListener('click',()=>{
-    if(!state.revealed[state.players[state.revealIdx]]){ alert('اعرض الكلمة لهذا اللاعب أولاً'); return; }
+  // ===== عرض الكلمات بالتتابع =====
+  function buildRevealSequential(){
+    updateHandoffText(); $('#wordShown').classList.add('hidden'); $('#hint').classList.add('hidden');
+  }
+  function updateHandoffText(){
+    const name=state.players[state.revealIdx];
+    $('#handoffText').innerHTML=`📱 <strong>أعطوا الجهاز <span class="badge">${name}</span></strong>`;
+    $('#revealBtn').disabled=false;
+  }
+  $('#revealBtn')?.addEventListener('click',()=>{
+    const i=state.revealIdx;
+    const word=(i===state.oddIndex)?state.pair.odd:state.pair.base;
+    const w=$('#wordShown');
+    w.textContent=word; w.classList.remove('hidden');
+    $('#hint').classList.remove('hidden');
+    $('#revealBtn').disabled=true;
+    state.revealed[state.players[i]]=true;
+    setTimeout(()=>{
+      w.classList.add('hidden'); $('#hint').classList.add('hidden');
+      showRoleInfo(); // صفحة نصية محايدة + زر التالي
+    },2500);
+  });
+
+  // صفحة دور محايدة (بدون كشف)
+  function showRoleInfo(){
+    const name = state.players[state.revealIdx];
+    $('#roleTitle').textContent = 'معلومات دورك';
+    $('#roleInfoText').innerHTML = `يا <strong>${name}</strong>، تذكّر: لا تكشف الكلمة التي ظهرت لك. تكلّم بذكاء وخلك غامض.`;
+    setView('#view-roleinfo');
+  }
+  $('#roleInfoNext')?.addEventListener('click',()=>{
     if(state.revealIdx < state.players.length-1){
-      state.revealIdx++; updateHandoffText();
-      $('#revealBtn').disabled = false; $('#wordShown').classList.add('hidden'); $('#hint').classList.add('hidden');
+      state.revealIdx++; updateHandoffText(); setView('#view-reveal'); $('#revealBtn').disabled=false;
     } else {
       $('#toDialogue').disabled = false;
-      $('#handoffText').innerHTML = '✅ تم عرض الكلمات للجميع — اضغط ابدأ الجولة الحوارية';
+      $('#handoffText').innerHTML = '✅ تم عرض الكلمات للجميع — ابدأ الجولة الحوارية';
+      setView('#view-reveal');
     }
   });
+
   $('#revealBack')?.addEventListener('click',()=> setView('#view-category'));
   $('#toDialogue')?.addEventListener('click',()=>{
     if($('#toDialogue').disabled){ alert('أكمل تمرير الكلمات للجميع أولاً'); return; }
-    const unseen = state.players.filter(n=>!state.revealed[n]);
-    if(unseen.length){ if(!confirm('بعض اللاعبين لم يشاهدوا كلمتهم. البدء على أي حال؟')) return; }
-    $('#currentCategory').textContent = state.category;
+    $('#currentCategory').textContent=state.category;
     updatePairUI();
     setView('#view-dialogue');
   });
 
-  // ===== Dialogue (who asks whom) =====
-  function pickPair(){ const asker = state.turnAskers[state.asked % state.turnAskers.length]; const others = state.players.filter(p=>p!==asker); const target = choice(others); return {asker,target}; }
-  function updatePairUI(){ $('#tProgress').textContent=`${state.asked}/${state.maxTurns}`; const {asker,target}=pickPair(); $('#askerName').textContent=asker; $('#targetName').textContent=target; $('#pairText').textContent=`${asker} يسأل ${target}`; }
-  $('#nextPair')?.addEventListener('click',()=>{ if(state.asked+1>=state.maxTurns) return alert('بلغت حد الأدوار. انتقل للتصويت.'); state.asked++; if(Math.random()<0.35) state.turnAskers=shuffle(state.turnAskers); updatePairUI(); });
-  $('#goVote')?.addEventListener('click',()=>{ buildVoteUI(); setView('#view-vote'); });
+  // ===== أدوار الحوار (من يسأل من) =====
+  function pickPair(){
+    const asker = state.turnAskers[state.asked % state.turnAskers.length];
+    const others = state.players.filter(p=>p!==asker);
+    const target = choice(others);
+    return {asker,target};
+  }
+  function updatePairUI(){
+    $('#tProgress').textContent=`${state.asked}/${state.maxTurns}`;
+    const {asker,target}=pickPair();
+    $('#askerName').textContent=asker;
+    $('#targetName').textContent=target;
+    $('#pairText').textContent=`${asker} يسأل ${target}`;
+  }
+  $('#nextPair')?.addEventListener('click',()=>{
+    if(state.asked+1>=state.maxTurns) return alert('بلغت حد الأدوار. انتقل للتصويت.');
+    state.asked++; if(Math.random()<0.35) state.turnAskers=shuffle(state.turnAskers);
+    updatePairUI();
+  });
+  $('#goVote')?.addEventListener('click',()=>{ startVotingSequence(); });
   $('#backToDialogue')?.addEventListener('click',()=> setView('#view-dialogue'));
 
-  // ===== Voting =====
-  function buildVoteUI(){ const a=$('#voteArea'); a.innerHTML=''; state.votes={}; state.players.forEach(voter=>{ const row=el('div','list'); row.style.alignItems='center'; const lab=el('div','badge',voter); const sel=document.createElement('select'); sel.style.maxWidth='240px'; sel.innerHTML=`<option value="">اختر المشكوك</option>`+state.players.map((p,i)=>`<option value="${i}" ${p===voter?'disabled':''}>${p}</option>`).join(''); sel.onchange=()=>{ state.votes[voter]=parseInt(sel.value,10); }; row.append(lab,sel); a.appendChild(row); }); }
+  // ===== التصويت — سري وبالتمرير =====
+  function startVotingSequence(){ state.voteIdx=0; state.votes={}; setView('#view-vote'); renderVoteForCurrent(); }
+  function renderVoteForCurrent(){
+    const voter = state.players[state.voteIdx];
+    $('#votePassText').innerHTML = `📱 <strong>أعطوا الجوال <span class="badge">${voter}</span></strong>`;
+    const box = $('#voteChoices'); box.innerHTML=''; $('#voteConfirm').disabled=true;
+    state.players.forEach((p,i)=>{
+      const b = el('button','candidate',p); b.type='button';
+      if(p===voter){ b.classList.add('disabled'); b.title='لا يمكنك التصويت لنفسك'; }
+      else {
+        b.onclick=()=>{
+          document.querySelectorAll('#voteChoices .candidate').forEach(x=>x.classList.remove('selected'));
+          b.classList.add('selected'); state.votes[voter]=i; $('#voteConfirm').disabled=false;
+        };
+      }
+      box.appendChild(b);
+    });
+  }
+  document.getElementById('voteConfirm')?.addEventListener('click',()=>{
+    const voter = state.players[state.voteIdx];
+    if(!(voter in state.votes)) return alert('اختر اسمًا للتصويت');
+    if(state.voteIdx < state.players.length-1){ state.voteIdx++; renderVoteForCurrent(); }
+    else { finalizeVotes(); }
+  });
 
-  $('#submitVotes')?.addEventListener('click',()=>{
-    const missing=state.players.filter(p=>!(p in state.votes)); if(missing.length) return alert('لسه ما صوّت الجميع.');
-    const tally=new Array(state.players.length).fill(0); Object.values(state.votes).forEach(i=>{ if(Number.isInteger(i)) tally[i]++; });
-    const most=Math.max(...tally); const suspects=tally.map((c,i)=>[c,i]).filter(([c])=>c===most).map(([,i])=>i);
-    const caught=suspects.includes(state.oddIndex);
+  function finalizeVotes(){
+    const tally = new Array(state.players.length).fill(0);
+    Object.values(state.votes).forEach(i=>{ if(Number.isInteger(i)) tally[i]++; });
+    const most = Math.max(...tally);
+    const suspects = tally.map((c,i)=>[c,i]).filter(([c])=>c===most).map(([,i])=>i);
+    const caught = suspects.includes(state.oddIndex);
 
-    // score voters immediately but لا نكشف المختلف
-    const oddName=state.players[state.oddIndex]; if(caught){ state.scores[oddName]+=0; } else { state.scores[oddName]+=3; }
+    const oddName = state.players[state.oddIndex];
+    if(caught){ state.scores[oddName]+=0; } else { state.scores[oddName]+=3; }
     for(const [voter,idx] of Object.entries(state.votes)){
       if(idx===state.oddIndex && caught) state.scores[voter]+=1; else if(idx!==state.oddIndex) state.scores[voter]-=1;
     }
     saveScores();
-
-    // start secret sequence (cycle through all players so nobody knows من المختلف)
     startSecretSequence();
+  }
+
+  // ===== المرحلة السرّية بعد التصويت =====
+  function startSecretSequence(){ state.secretIdx=0; state.secretPhase=0; setView('#view-secret'); renderSecret(); }
+  function renderSecret(){
+    const name=state.players[state.secretIdx];
+    const pass=$('#secretPassText');
+    if(state.secretPhase===0){
+      pass.innerHTML=`📱 <strong>أعطوا الجوال <span class="badge">${name}</span></strong>`;
+      $('#secretNext').textContent='التالي';
+    } else {
+      if(state.secretIdx===state.oddIndex){
+        buildGuessOptions(); setView('#view-guess'); return;
+      }
+      pass.innerHTML=`🫣 شاشة خاصة — اضغط التالي ثم مرّر الجوال`;
+      $('#secretNext').textContent='التالي';
+    }
+  }
+  $('#secretNext')?.addEventListener('click',()=>{
+    if(state.secretPhase===0){ state.secretPhase=1; renderSecret(); }
+    else {
+      state.secretPhase=0;
+      if(state.secretIdx < state.players.length-1){
+        state.secretIdx++; setView('#view-secret'); renderSecret();
+      } else { finishAndShowResults(); }
+    }
   });
 
-  // ===== Secret sequence (two-step per player) =====
-  function startSecretSequence(){ state.secretIdx=0; state.secretPhase=0; setView('#view-secret'); renderSecret(); }
-  function renderSecret(){ const name=state.players[state.secretIdx]; const pass=$('#secretPassText'); if(state.secretPhase===0){ pass.innerHTML=`📱 <strong>أعطوا الجوال <span class="badge">${name}</span></strong>`; $('#secretNext').textContent='التالي'; }
-    else { // private content
-      if(state.secretIdx===state.oddIndex){ // show guess screen instead
-        buildGuessOptions(); setView('#view-guess'); return; }
-      pass.innerHTML=`🫣 <strong>${name}</strong> — ليس دورك. اضغط التالي ثم مرّر الجوال`; $('#secretNext').textContent='التالي'; }
-  }
-  $('#secretNext')?.addEventListener('click',()=>{ if(state.secretPhase===0){ state.secretPhase=1; renderSecret(); } else { // move to next player
-      state.secretPhase=0; if(state.secretIdx < state.players.length-1){ state.secretIdx++; setView('#view-secret'); renderSecret(); } else { // done
-        finishAndShowResults(); }
-    } });
-
-  // ===== Guess (only odd sees this) =====
+  // ===== تخمين الكلمة (محايد) =====
   function buildGuessOptions(){
-    // create 4 options: correct base + 3 distractors from same category (unique, not odd word)
-    const correct=state.pair.base; const pack=PACKS[state.category].flat(); // flatten words
+    const correct=state.pair.base;
+    const pack=PACKS[state.category].flat();
     const pool=[...new Set(pack.filter(w=>w!==correct && w!==state.pair.odd))];
     const distractors=shuffle(pool).slice(0,3);
-    state.guessOptions=shuffle([correct,...distractors]); state.selectedGuess=null; state.guessCorrect=null;
+    state.guessOptions=shuffle([correct,...distractors]);
+    state.selectedGuess=null; state.guessCorrect=null;
+
     const box=$('#choices'); box.innerHTML='';
-    state.guessOptions.forEach(w=>{ const b=el('button','choice',w); b.onclick=()=>{ state.selectedGuess=w; document.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); $('#confirmGuess').disabled=false; }; box.appendChild(b); });
+    state.guessOptions.forEach(w=>{
+      const b=el('button','choice',w); b.type='button';
+      b.onclick=()=>{
+        state.selectedGuess=w;
+        document.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));
+        b.classList.add('selected'); $('#confirmGuess').disabled=false;
+      };
+      box.appendChild(b);
+    });
     $('#confirmGuess').disabled=true;
   }
-
   $('#confirmGuess')?.addEventListener('click',()=>{
-    const isCorrect = state.selectedGuess===state.pair.base; state.guessCorrect=isCorrect;
-    if(isCorrect){ state.scores[state.players[state.oddIndex]] = (state.scores[state.players[state.oddIndex]]||0) + 2; }
+    const isCorrect=state.selectedGuess===state.pair.base; state.guessCorrect=isCorrect;
+    if(isCorrect){ state.scores[state.players[state.oddIndex]]=(state.scores[state.players[state.oddIndex]]||0)+2; }
     saveScores();
-    // After guess, mimic two-step flow: show short result then continue secret cycle
-    const msg = isCorrect? '👏 إجابة صحيحة! (+2)' : '❌ إجابة غير صحيحة';
-    $('#choices').innerHTML = `<div class="big">${msg}</div>`;
-    const btn=$('#confirmGuess'); btn.textContent='التالي'; btn.disabled=false; btn.onclick=()=>{ // return to secret flow
-      setView('#view-secret'); state.secretPhase=0; if(state.secretIdx < state.players.length-1){ state.secretIdx++; renderSecret(); } else { finishAndShowResults(); }
+    $('#choices').innerHTML = `<div class="big">${isCorrect? '👏 إجابة صحيحة! (+2)':'❌ إجابة غير صحيحة'}</div>`;
+    const btn=$('#confirmGuess'); btn.textContent='التالي'; btn.disabled=false;
+    btn.onclick=()=>{
+      setView('#view-secret'); state.secretPhase=0;
+      if(state.secretIdx < state.players.length-1){ state.secretIdx++; renderSecret(); } else { finishAndShowResults(); }
     };
   });
 
+  // ===== النتيجة =====
   function finishAndShowResults(){ setView('#view-result'); showResult(); }
-
-  // ===== Result (لا نكشف اسم المختلف) =====
   function showResult(){
     const box=$('#resultSummary'); box.innerHTML='';
     const a=el('div','card',`
-      <div class="big">انتهت الجولة ✅</div>
-      <div class="subtitle">لن نكشف اسم المختلف للحفاظ على الغموض 😉</div>
+      <div class="big">الجولة خلصت — سرّ اللعبة محفوظ 😉</div>
       <div class="hr"></div>
       <div>مكافأة التخمين: ${state.guessCorrect===true? '<span class="badge">تمت (+2)</span>' : state.guessCorrect===false? '<span class="badge">لم تتم</span>' : '<span class="badge">—</span>'}</div>
     `);
-    const c=el('div','card'); c.innerHTML=`<h3 style="margin-bottom:10px;color:#1b1f3a">الترتيب الحالي</h3>`; const rank=el('div','list'); rank.style.flexDirection='column'; Object.entries(state.scores).sort((a,b)=>b[1]-a[1]).forEach(([n,s])=> rank.appendChild(el('div','score',`<strong>${n}</strong><span>${s} نقطة</span>`)) ); c.appendChild(rank);
+    const c=el('div','card');
+    c.innerHTML=`<h3 style="margin-bottom:10px">الترتيب الحالي</h3>`;
+    const rank=el('div','list'); rank.style.flexDirection='column';
+    Object.entries(state.scores).sort((a,b)=>b[1]-a[1]).forEach(([n,s])=>{
+      rank.appendChild(el('div','score',`<strong>${n}</strong><span>${s} نقطة</span>`));
+    });
+    c.appendChild(rank);
     box.append(a); box.append(c);
   }
 
-  // New round buttons + header
+  // أزرار عامة
   document.getElementById('homeBtn')?.addEventListener('click',()=> setView('#view-names'));
   $('#newRoundSame')?.addEventListener('click',()=>{ buildCategoryUI(); setView('#view-category'); });
   $('#newRoundReset')?.addEventListener('click',()=>{ state.players=[]; renderNames(); setView('#view-names'); });
 
   // init
   loadScores(); renderScores(); renderNames();
-  </script></body>
+  </script>
+</body>
 </html>

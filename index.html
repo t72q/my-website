@@ -1,10 +1,449 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
-  <title>My First Website</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>برا السالفة بس ما أدري — لعبة حفلات</title>
+  <style>
+    :root{
+      --bg:#0e1013;--card:#151922;--muted:#8b93a7;--text:#e9eef7;--accent:#6ee7b7;--accent2:#60a5fa;--danger:#f87171;--warn:#fbbf24;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#0b0e12,#10131a 40%,#0b0e12);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}
+    .container{max-width:980px;margin:0 auto;padding:20px}
+    h1,h2,h3{margin:0 0 12px}
+    h1{font-size:28px}
+    h2{font-size:22px}
+    p{color:var(--muted)}
+    .card{background:var(--card);border:1px solid #1f2531;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1 1 240px}
+    label{display:block;margin-bottom:6px;color:#c6d3eb;font-size:14px}
+    input,select,textarea,button{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #263044;background:#0f1420;color:var(--text);outline:none}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent2)}
+    button{cursor:pointer;background:linear-gradient(135deg,var(--accent2),#7dd3fc);border:none;font-weight:700}
+    button.secondary{background:#1b2334;border:1px solid #2a3550}
+    button.ghost{background:transparent;border:1px dashed #33415f}
+    button.danger{background:linear-gradient(135deg,#ef4444,#fb7185)}
+    .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#1d283a;border:1px solid #2a3550;color:#cfe0ff;font-size:12px}
+    .list{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{padding:8px 12px;border-radius:999px;border:1px solid #2a3550;background:#131a28}
+    .hidden{display:none}
+    .center{text-align:center}
+    .grid{display:grid;gap:10px}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .muted{color:var(--muted)}
+    .title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .title .logo{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--accent2),#34d399);font-weight:900}
+    .hr{height:1px;background:#222a39;margin:14px 0}
+    .footer{opacity:.7;font-size:12px}
+    .big{font-size:20px}
+    .word-flash{font-weight:800;font-size:34px;letter-spacing:1px;background:linear-gradient(90deg,#93c5fd,#34d399);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .stack{display:flex;flex-direction:column;gap:10px}
+    .vote-item{display:flex;align-items:center;gap:8px}
+    .score{display:flex;align-items:center;justify-content:space-between;padding:10px;border:1px solid #2a3550;border-radius:12px;background:#121828}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#0d1220;border:1px solid #2a3550;border-bottom-width:3px;border-radius:8px;padding:3px 6px}
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <p>This is my first website hosted on GitHub Pages!</p>
-</body>
+  <div class="container">
+    <div class="title">
+      <div class="logo">🕵️</div>
+      <div>
+        <h1>برا السالفة.. بس ما أدري!</h1>
+        <p class="muted">لعبة حفلات اجتماعية: واحد مختلف عن البقية — وما يدري إنه مختلف 👀</p>
+      </div>
+    </div><!-- SETUP CARD -->
+<div id="view-setup" class="card">
+  <h2>إعداد الجولة</h2>
+  <div class="row">
+    <div class="col">
+      <label>أسماء اللاعبين (افصل بينهم بفاصلة ،)</label>
+      <input id="playersInput" placeholder="مثال: ناصر، شهد، فيصل، رهف، يوسف">
+    </div>
+    <div class="col">
+      <label>عدد الأسئلة قبل التصويت</label>
+      <select id="questionCount">
+        <option value="4">4</option>
+        <option value="6" selected>6</option>
+        <option value="8">8</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+  <div class="row">
+    <div class="col">
+      <label>اختيار التصنيف</label>
+      <select id="categorySelect"></select>
+    </div>
+    <div class="col">
+      <label>طريقة الاختيار</label>
+      <select id="pairMode">
+        <option value="random" selected>عشوائي من التصنيف</option>
+        <option value="manual">اختيار يدوي للكلمة/الكلمة المختلفة</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="manualPairs" class="row hidden">
+    <div class="col">
+      <label>الكلمة الأساسية (للأغلبية)</label>
+      <input id="baseWord" placeholder="مثال: قهوة">
+    </div>
+    <div class="col">
+      <label>كلمة المختلف (قريبة من الأساسية)</label>
+      <input id="oddWord" placeholder="مثال: شاي">
+    </div>
+  </div>
+
+  <div class="hr"></div>
+  <div class="row">
+    <div class="col">
+      <button id="startBtn">ابدأ الجولة</button>
+    </div>
+    <div class="col">
+      <button class="secondary" id="demoBtn">تجربة سريعة (أسماء وهمية)</button>
+    </div>
+  </div>
+
+  <p class="footer">نصيحة: اجلسوا قريب من بعض وتبادلوا الجهاز في مرحلة “عرض الكلمة”. لا أحد يتجسس 😆</p>
+</div>
+
+<!-- REVEAL CARD -->
+<div id="view-reveal" class="card hidden">
+  <h2>عرض الكلمة لكل لاعب</h2>
+  <p class="muted">مرر الجهاز لكل لاعب بالترتيب واضغط على اسمه ليشوف الكلمة لثوانٍ.</p>
+  <div id="revealList" class="grid grid-2"></div>
+  <div class="hr"></div>
+  <div class="row">
+    <button class="secondary" id="backToSetup">رجوع</button>
+    <button id="beginQuestions">ابدأ الأسئلة العشوائية</button>
+  </div>
+</div>
+
+<!-- QUESTIONS CARD -->
+<div id="view-questions" class="card hidden">
+  <div class="row" style="align-items:center;justify-content:space-between">
+    <h2>جولة الأسئلة <span class="badge" id="qProgress">0/0</span></h2>
+    <div class="badge" id="currentCategory">تصنيف</div>
+  </div>
+  <div class="hr"></div>
+  <div class="grid">
+    <div class="card" style="background:#101625;border-color:#222c44">
+      <div class="big">سؤال:</div>
+      <div id="questionText" class="word-flash" style="margin:6px 0 10px">…</div>
+      <div class="muted">الدور الآن على: <span id="turnName" class="badge"></span></div>
+    </div>
+    <div class="row">
+      <button id="nextQuestion">السؤال التالي</button>
+      <button class="secondary" id="goVote">انتقال للتصويت</button>
+    </div>
+  </div>
+  <p class="footer">تلميح: اسألوا أسئلة تكشف الفروقات الدقيقة. مثال: “هل تتقدم حلوة أم مالحة؟”</p>
+</div>
+
+<!-- VOTE CARD -->
+<div id="view-vote" class="card hidden">
+  <h2>التصويت: مين برا السالفة؟</h2>
+  <div id="voteArea" class="stack"></div>
+  <div class="hr"></div>
+  <div class="row">
+    <button class="secondary" id="backToQuestions">رجوع للأسئلة</button>
+    <button id="submitVotes">اعتماد التصويت</button>
+  </div>
+</div>
+
+<!-- RESULT CARD -->
+<div id="view-result" class="card hidden">
+  <h2>النتيجة</h2>
+  <div id="resultSummary" class="grid"></div>
+  <div class="hr"></div>
+  <div class="row">
+    <button class="ghost" id="newRoundSame">جولة جديدة (نفس اللاعبين)</button>
+    <button id="newRoundReset">إعداد جديد</button>
+  </div>
+</div>
+
+<!-- SCOREBOARD -->
+<div id="view-score" class="card hidden">
+  <h2>النتائج المتراكمة</h2>
+  <div id="scoreList" class="stack"></div>
+</div>
+
+  </div>  <script>
+  // ===== Data Packs (تصنيفات + أزواج كلمات قريبة) =====
+  const PACKS = {
+    "أكلات ومشروبات": [
+      ["بيتزا","برجر"],["شاورما","فاهيتا"],["قهوة","شاي"],["عصير برتقال","عصير مانجو"],["كابتشينو","لاتيه"],["رز","مكرونة"],["فطور","عشاء"],["كعك","دونات"],["ماء غازي","عصير غازي"],["فول","حمص"]
+    ],
+    "أماكن ومدن": [
+      ["باريس","لندن"],["مكة","المدينة"],["طوكيو","سول"],["البحر الأحمر","الخليج العربي"],["الرياض","جدة"],["الهرم","أبو الهول"],["الصحراء","الواحة"],["شاطئ","مسبح"],["جامعة","مدرسة"],["مستشفى","عيادة"]
+    ],
+    "أشياء يومية": [
+      ["جوال","تابلت"],["مكيف","مروحة"],["قلم","ماركر"],["كرسي","أريكة"],["ريموت","يد تحكم"],["سماعات","سبيكر"],["حاسوب محمول","حاسوب مكتبي"],["مصباح","شمعة"],["ساعة يد","سوار ذكي"],["دراجة","سكوتر"]
+    ],
+    "تكنولوجيا/مفاهيم": [
+      ["ذكاء اصطناعي","تعلم آلي"],["ذاكرة","تخزين"],["واي فاي","بلوتوث"],["تطبيق","موقع"],["تشفير","كلمات مرور"],["روبوت","طابعة ثلاثية الأبعاد"],["نظام أندرويد","iOS"],["واقع افتراضي","واقع معزز"],["سحابة","سيرفر"],["لوحة مفاتيح","فأرة"]
+    ],
+    "مشاعر ومفاهيم": [
+      ["فرح","حماس"],["حزن","إحباط"],["خوف","قلق"],["ثقة","غرور"],["صدق","مجاملة"],["حظ","اجتهاد"],["هدوء","سكينة"],["غضب","انفعال"],["حب","إعجاب"],["ملل","كسل"]
+    ]
+  };
+
+  const QUESTIONS = [
+    "هل يُستخدم غالبًا في الصباح؟",
+    "هل هو حلو عادةً؟",
+    "هل يُؤكل/يُشرب ساخنًا؟",
+    "هل لونه غامق؟",
+    "هل تجده غالبًا في المنزل؟",
+    "هل يُستخدم باليد مباشرة؟",
+    "هل هو مرتبط بمكان محدد؟",
+    "هل يُصدر صوتًا؟",
+    "هل حجمه عادة صغير؟",
+    "هل يُباع غالبًا في المتاجر المتخصصة؟",
+    "هل تحتاج كهرباء لتستعمله؟",
+    "هل هو شيء يمكن حمله معك؟",
+    "هل يُعتبر صحيًا غالبًا؟",
+    "هل يُستخدم في المناسبات؟",
+    "هل له رائحة مميزة؟"
+  ];
+
+  // ===== State =====
+  let state = {
+    players: [],
+    scores: {},
+    category: null,
+    pair: null, // {base, odd}
+    oddIndex: null,
+    reveals: {},
+    turnOrder: [],
+    asked: 0,
+    maxQuestions: 6,
+    usedQuestions: new Set(),
+    votes: {},
+  };
+
+  // ===== Helpers =====
+  const $ = sel => document.querySelector(sel);
+  const el = (tag, cls, html) => {const e=document.createElement(tag); if(cls) e.className=cls; if(html!==undefined) e.innerHTML=html; return e;};
+  const shuffle = (arr)=>arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+  const choice = (arr)=>arr[Math.floor(Math.random()*arr.length)];
+
+  function saveScores(){ localStorage.setItem("bsb_scores", JSON.stringify(state.scores)); }
+  function loadScores(){ const s=localStorage.getItem("bsb_scores"); if(s) state.scores = JSON.parse(s); }
+  function renderScores(){ const box = $("#scoreList"); box.innerHTML=''; const items = Object.entries(state.scores).sort((a,b)=>b[1]-a[1]); items.forEach(([name,pts])=>{ box.appendChild(el('div','score',`<strong>${name}</strong><span>${pts} نقطة</span>`)); }); $("#view-score").classList.toggle('hidden', items.length===0); }
+
+  function setView(id){ ["#view-setup","#view-reveal","#view-questions","#view-vote","#view-result"].forEach(s=>$(s).classList.add('hidden')); $(id).classList.remove('hidden'); }
+
+  // ===== Setup UI Init =====
+  const catSel = $("#categorySelect");
+  Object.keys(PACKS).forEach(k=>{ const o=document.createElement('option'); o.value=k;o.textContent=k; catSel.appendChild(o);});
+
+  $("#pairMode").addEventListener('change', e=>{
+    $("#manualPairs").classList.toggle('hidden', e.target.value!=="manual");
+  });
+
+  $("#demoBtn").addEventListener('click', ()=>{
+    $("#playersInput").value = 'ناصر، شهد، فيصل، رهف، يوسف';
+  });
+
+  $("#startBtn").addEventListener('click', ()=>{
+    const raw = $("#playersInput").value.trim();
+    const names = raw.split(/[،,]/).map(s=>s.trim()).filter(Boolean);
+    if(names.length < 3){ alert('لازم 3 لاعبين على الأقل ✋'); return; }
+
+    state.players = names;
+    $("#questionCount").value && (state.maxQuestions = parseInt($("#questionCount").value,10));
+
+    state.category = $("#categorySelect").value;
+
+    let base, odd;
+    if($("#pairMode").value === 'manual'){
+      base = $("#baseWord").value.trim();
+      odd = $("#oddWord").value.trim();
+      if(!base || !odd){ alert('املأ الكلمتين من فضلك'); return; }
+    } else {
+      const p = choice(PACKS[state.category]);
+      [base, odd] = Math.random() < .5 ? p : [p[1], p[0]]; // عشوائيًا بدّل
+    }
+
+    state.pair = {base, odd};
+    state.oddIndex = Math.floor(Math.random()*state.players.length);
+    state.reveals = {}; state.turnOrder = shuffle([...state.players]);
+    state.asked = 0; state.usedQuestions = new Set(); state.votes = {};
+
+    // Init scores if needed
+    loadScores();
+    state.players.forEach(n=>{ if(!(n in state.scores)) state.scores[n]=0; });
+    renderScores();
+
+    buildRevealList();
+    setView('#view-reveal');
+  });
+
+  $("#backToSetup").addEventListener('click', ()=> setView('#view-setup'));
+
+  function buildRevealList(){
+    const box = $("#revealList"); box.innerHTML='';
+    state.players.forEach((name, idx)=>{
+      const item = el('div','card'); item.style.background='#101625'; item.style.borderColor='#1e2636';
+      const b = el('button'); b.textContent = `👁️‍🗨️ ${name} — اضغط لعرض الكلمة`;
+      b.addEventListener('click', ()=>showWord(name, idx, b, item));
+      item.appendChild(b);
+      box.appendChild(item);
+    });
+  }
+
+  function showWord(name, idx, btn, item){
+    const isOdd = idx === state.oddIndex;
+    const word = isOdd ? state.pair.odd : state.pair.base;
+    btn.disabled = true; btn.classList.add('secondary');
+    const w = el('div','word-flash center', word);
+    const note = el('div','muted center', 'سيختفي خلال 3 ثوانٍ');
+    item.appendChild(w); item.appendChild(note);
+    setTimeout(()=>{ w.remove(); note.remove(); btn.textContent = `✅ ${name} — تمت المشاهدة`; }, 3000);
+    state.reveals[name] = true;
+  }
+
+  $("#beginQuestions").addEventListener('click', ()=>{
+    // Ensure all saw their word (optional)
+    const unseen = state.players.filter(n=>!state.reveals[n]);
+    if(unseen.length){ if(!confirm('بعض اللاعبين ما شافوا كلمتهم. تبدأ على أي حال؟')) return; }
+    $("#currentCategory").textContent = state.category;
+    updateQuestionUI();
+    setView('#view-questions');
+  });
+
+  function updateQuestionUI(){
+    $("#qProgress").textContent = `${state.asked}/${state.maxQuestions}`;
+    const q = nextQuestion();
+    $("#questionText").textContent = q;
+    const turn = state.turnOrder[state.asked % state.players.length];
+    $("#turnName").textContent = turn;
+  }
+
+  function nextQuestion(){
+    let q;
+    const available = QUESTIONS.filter(x=>!state.usedQuestions.has(x));
+    if(!available.length){ state.usedQuestions.clear(); }
+    do { q = choice(QUESTIONS); } while(state.usedQuestions.has(q));
+    state.usedQuestions.add(q);
+    return q;
+  }
+
+  $("#nextQuestion").addEventListener('click', ()=>{
+    if(state.asked+1 >= state.maxQuestions){ alert('بلغت حد الأسئلة لهذه الجولة. انتقل للتصويت.'); return; }
+    state.asked++;
+    // Randomize next turn order slightly
+    if(Math.random()<0.4) state.turnOrder = shuffle(state.turnOrder);
+    updateQuestionUI();
+  });
+
+  $("#goVote").addEventListener('click', ()=>{
+    buildVoteUI();
+    setView('#view-vote');
+  });
+
+  $("#backToQuestions").addEventListener('click', ()=> setView('#view-questions'));
+
+  function buildVoteUI(){
+    const area = $("#voteArea"); area.innerHTML='';
+    state.votes = {};
+    state.players.forEach(voter=>{
+      const row = el('div','vote-item');
+      const sel = document.createElement('select');
+      sel.innerHTML = `<option value="">اختر المشكوك</option>` + state.players.map((p,i)=>`<option value="${i}" ${p===voter?'disabled':''}>${p}</option>`).join('');
+      sel.addEventListener('change', ()=>{ state.votes[voter] = parseInt(sel.value,10); });
+      row.appendChild(el('div',null,`<span class="badge">${voter}</span>`));
+      row.appendChild(sel);
+      area.appendChild(row);
+    });
+  }
+
+  $("#submitVotes").addEventListener('click', ()=>{
+    // Ensure all voted
+    const missing = state.players.filter(p=>!(p in state.votes));
+    if(missing.length){ alert('لسه ما صوّت الجميع.'); return; }
+
+    // Count votes
+    const tally = new Array(state.players.length).fill(0);
+    Object.values(state.votes).forEach(idx=>{ if(Number.isInteger(idx)) tally[idx]++; });
+
+    const most = Math.max(...tally);
+    const suspects = tally.map((c,i)=>[c,i]).filter(([c])=>c===most).map(([,i])=>i);
+
+    const caught = suspects.includes(state.oddIndex); // هل تم الإمساك بالمختلف؟
+
+    // Scoring
+    // odd wins +3 if not caught, else 0; correct voters +1; wrong -1
+    const oddName = state.players[state.oddIndex];
+    if(caught){
+      state.scores[oddName] += 0;
+    } else {
+      state.scores[oddName] += 3;
+    }
+
+    for(const [voter, idx] of Object.entries(state.votes)){
+      if(idx === state.oddIndex && caught){ state.scores[voter] += 1; }
+      else if(idx !== state.oddIndex){ state.scores[voter] -= 1; }
+    }
+
+    saveScores(); renderScores();
+    showResult(tally, suspects, caught);
+    setView('#view-result');
+  });
+
+  function showResult(tally, suspects, caught){
+    const box = $("#resultSummary"); box.innerHTML='';
+    const oddName = state.players[state.oddIndex];
+
+    const a = el('div','card', `
+      <div class="big">المختلف كان: <strong>${oddName}</strong></div>
+      <div class="muted">كلمة الأغلبية: <span class="badge">${state.pair.base}</span></div>
+      <div class="muted">كلمة المختلف: <span class="badge">${state.pair.odd}</span></div>
+      <div class="hr"></div>
+      <div>${caught ? '👏 تم كشف المختلف — نقطة (+1) لكل من صوّت عليه بشكل صحيح' : '😎 ما أحد كشف المختلف — يحصل على (+3) نقاط'}</div>
+    `);
+
+    const b = el('div','card');
+    b.innerHTML = `<h3>تفاصيل التصويت</h3>`;
+    const ul = el('div','stack');
+    state.players.forEach((p,i)=>{
+      const voters = Object.entries(state.votes).filter(([,idx])=>idx===i).map(([name])=>name);
+      ul.appendChild(el('div',null,`<span class="badge">${p}</span> — ${tally[i]} صوت${tally[i]!==1?'': ''} ${voters.length?`<span class="muted">(${voters.join('، ')})</span>`:''}`));
+    });
+    b.appendChild(ul);
+
+    const c = el('div','card');
+    c.innerHTML = `<h3>الترتيب الحالي</h3>`;
+    const rank = el('div','stack');
+    Object.entries(state.scores).sort((a,b)=>b[1]-a[1]).forEach(([n,s])=>{
+      rank.appendChild(el('div','score',`<strong>${n}</strong><span>${s} نقطة</span>`));
+    });
+    c.appendChild(rank);
+
+    box.appendChild(a); box.appendChild(b); box.appendChild(c);
+  }
+
+  $("#newRoundSame").addEventListener('click', ()=>{
+    // keep players & scores, reset round
+    state.category = $("#categorySelect").value;
+    const p = choice(PACKS[state.category]);
+    const [base, odd] = Math.random()<.5? p : [p[1], p[0]];
+    state.pair = {base, odd};
+    state.oddIndex = Math.floor(Math.random()*state.players.length);
+    state.reveals = {}; state.turnOrder = shuffle([...state.players]);
+    state.asked = 0; state.usedQuestions = new Set(); state.votes = {};
+    buildRevealList();
+    setView('#view-reveal');
+  });
+
+  $("#newRoundReset").addEventListener('click', ()=>{
+    setView('#view-setup');
+  });
+
+  // initial
+  loadScores(); renderScores();
+  </script></body>
 </html>

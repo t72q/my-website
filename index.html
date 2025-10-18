@@ -56,7 +56,7 @@ input:focus,select:focus,textarea:focus{border-color:#ffe29a}
 .bottom{display:flex;gap:10px;justify-content:center;margin-top:8px}
 
 .handoff-box{background:#fff;color:#111;border-radius:18px;padding:18px;box-shadow:var(--shadow)}
-.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+$1repeat(4, 1fr));gap:10px;margin-top:12px}
 .choice{background:#fff;border:2px solid #e6eaff;border-radius:14px;padding:12px;font-weight:800;cursor:pointer}
 .choice.selected{border-color:#f7a61a;background:#fff7e6}
 .candidates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
@@ -231,7 +231,103 @@ input:focus,select:focus,textarea:focus{border-color:#ffe29a}
 </div>
 
   </div>  <script>
-  const PACKS = {"حيوانات":[["أسد","نمر"],["ذئب","كلب"],["قطة","أرنب"],["حصان","حمار"],["فيل","فرس النهر"],["جمل","لاما"],["صقر","نسر"],["دلفين","حوت"],["تمساح","سحلية"],["غزال","مها"]],"أكلات ومشروبات":[["بيتزا","برجر"],["شاورما","فاهيتا"],["قهوة","شاي"],["عصير برتقال","عصير مانجو"],["كابتشينو","لاتيه"],["رز","مكرونة"],["كعك","دونات"],["ماء غازي","عصير غازي"],["فول","حمص"],["عسل","دبس"]],"أماكن ومدن":[["باريس","لندن"],["مكة","المدينة"],["طوكيو","سول"],["الرياض","جدة"],["الصحراء","الواحة"],["شاطئ","مسبح"],["جامعة","مدرسة"],["مستشفى","عيادة"],["برج","قلعة"],["حديقة","محمية"]],"أشياء يومية":[["جوال","تابلت"],["مكيف","مروحة"],["قلم","ماركر"],["كرسي","أريكة"],["ريموت","يد تحكم"],["سماعات","سبيكر"],["حاسوب محمول","حاسوب مكتبي"],["مصباح","شمعة"],["ساعة يد","سوار ذكي"],["دراجة","سكوتر"]]};
+  const PACKS = {
+    "حيوانات":[["أسد","نمر"],["ذئب","كلب"],["قطة","أرنب"],["حصان","حمار"],["فيل","فرس النهر"],["جمل","لاما"],["صقر","نسر"],["دلفين","حوت"],["تمساح","سحلية"],["غزال","مها"]],
+    "أكلات ومشروبات":[["بيتزا","برجر"],["شاورما","فاهيتا"],["قهوة","شاي"],["عصير برتقال","عصير مانجو"],["كابتشينو","لاتيه"],["رز","مكرونة"],["كعك","دونات"],["ماء غازي","عصير غازي"],["فول","حمص"],["عسل","دبس"]],
+    "أماكن ومدن":[["باريس","لندن"],["مكة","المدينة"],["طوكيو","سول"],["الرياض","جدة"],["الصحراء","الواحة"],["شاطئ","مسبح"],["جامعة","مدرسة"],["مستشفى","عيادة"],["برج","قلعة"],["حديقة","محمية"]],
+    "أشياء يومية":[["جوال","تابلت"],["مكيف","مروحة"],["قلم","ماركر"],["كرسي","أريكة"],["ريموت","يد تحكم"],["سماعات","سبيكر"],["حاسوب محمول","حاسوب مكتبي"],["مصباح","شمعة"],["ساعة يد","سوار ذكي"],["دراجة","سكوتر"]]
+  };
+
+  // تشابهات تقريبية (لجعل خيارات التخمين ضمن نفس "البيئة")
+  const SIMILAR = {
+    /* ===================== حيوانات ===================== */
+    "أسد":["نمر","فهد","وشق","ضبع"],
+    "نمر":["أسد","فهد","وشق","ضبع"],
+    "ذئب":["ثعلب","ابن آوى","كلب","ضبع"],
+    "كلب":["ذئب","ثعلب","ابن آوى"],
+    "قطة":["وشق","قط بري","فهد","نمر"],
+    "أرنب":["سنجاب","هامستر","خنزير غيني"],
+    "حصان":["حمار","بغل","حمار وحشي","مهر"],
+    "حمار":["حصان","بغل","حمار وحشي"],
+    "فيل":["فرس النهر","وحيد القرن","جاموس"],
+    "فرس النهر":["فيل","وحيد القرن","جاموس"],
+    "جمل":["لاما","ألباكا","حمار"],
+    "لاما":["ألباكا","جمل","حمار"],
+    "صقر":["نسر","شاهين","عقاب"],
+    "نسر":["عقاب","صقر","رخمة"],
+    "دلفين":["حوت","خنزير البحر","فقمة"],
+    "حوت":["دلفين","حوت قاتل","فقمة"],
+    "تمساح":["سحلية","وَرل","أفعى"],
+    "سحلية":["تمساح","وَرل","أفعى"],
+    "غزال":["ظبي","ريم","مها"],
+    "مها":["غزال","ظبي","ريم"],
+
+    /* ===================== أكلات ومشروبات ===================== */
+    "بيتزا":["برجر","ساندوتش","باستا"],
+    "برجر":["شاورما","فاهيتا","ساندوتش"],
+    "شاورما":["فاهيتا","كباب","برجر"],
+    "فاهيتا":["شاورما","تاكو","برجر"],
+    "قهوة":["كابتشينو","لاتيه","إسبرسو"],
+    "شاي":["قهوة","شاي بالحليب","نعناع"],
+    "عصير برتقال":["عصير مانجو","عصير تفاح","عصير أناناس"],
+    "عصير مانجو":["عصير برتقال","عصير خوخ","سموذي"],
+    "كابتشينو":["لاتيه","موكا","إسبرسو"],
+    "لاتيه":["كابتشينو","موكا","فلات وايت"],
+    "رز":["مكرونة","كبسة","برياني"],
+    "مكرونة":["لازانيا","سباغيتي","رز"],
+    "كعك":["دونات","كب كيك","مافن"],
+    "دونات":["كعك","مافن","كرواسون"],
+    "ماء غازي":["عصير غازي","صودا","مشروب غازي"],
+    "عصير غازي":["ماء غازي","صودا","مشروب غازي"],
+    "فول":["حمص","فاصوليا","عدس"],
+    "حمص":["فول","متبّل","بابا غنوج"],
+    "عسل":["دبس","مربى","قطر"],
+    "دبس":["عسل","قطر","تمر"],
+
+    /* ===================== أماكن ومدن ===================== */
+    "باريس":["لندن","روما","مدريد"],
+    "لندن":["باريس","برلين","مانشستر"],
+    "مكة":["المدينة","جدة","الطائف"],
+    "المدينة":["مكة","ينبع","بدر"],
+    "طوكيو":["سول","أوساكا","كيوتو"],
+    "سول":["طوكيو","بوسان","دايغو"],
+    "الرياض":["جدة","الدمام","مكة"],
+    "جدة":["الرياض","مكة","الطائف"],
+    "الصحراء":["الواحة","كثبان","سفاري"],
+    "الواحة":["الصحراء","نخيل","عين ماء"],
+    "شاطئ":["مسبح","بحر","مرسى"],
+    "مسبح":["شاطئ","سبا","جاكوزي"],
+    "جامعة":["مدرسة","معهد","كلية"],
+    "مدرسة":["جامعة","روضة","معهد"],
+    "مستشفى":["عيادة","إسعاف","مركز صحي"],
+    "عيادة":["مستشفى","صيدلية","مركز صحي"],
+    "برج":["قلعة","ناطحة سحاب","مبنى"],
+    "قلعة":["برج","حصن","سور"],
+    "حديقة":["محمية","متنزه","غابة"],
+    "محمية":["حديقة","سفاري","متنزه"],
+
+    /* ===================== أشياء يومية ===================== */
+    "جوال":["تابلت","حاسوب محمول","سماعات"],
+    "تابلت":["جوال","حاسوب محمول","قلم إلكتروني"],
+    "مكيف":["مروحة","مبرد هواء","مكيف صحراوي"],
+    "مروحة":["مكيف","شفاط","مبرد هواء"],
+    "قلم":["ماركر","قلم رصاص","حبر"],
+    "ماركر":["قلم","قلم سبورة","قلم تظليل"],
+    "كرسي":["أريكة","كنبة","مقعد"],
+    "أريكة":["كرسي","كنبة زاوية","فوتيه"],
+    "ريموت":["يد تحكم","لوحة مفاتيح لاسلكية","فأرة لاسلكية"],
+    "يد تحكم":["ريموت","ذراع بلايستيشن","ذراع إكس بوكس"],
+    "سماعات":["سبيكر","سماعات أذن","سماعات رأس"],
+    "سبيكر":["سماعات","مكبر صوت","ساوندبار"],
+    "حاسوب محمول":["حاسوب مكتبي","تابلت","لوحة مفاتيح"],
+    "حاسوب مكتبي":["حاسوب محمول","شاشة","فأرة"],
+    "مصباح":["شمعة","لمبة","كشاف"],
+    "شمعة":["مصباح","فانوس","ولاعة"],
+    "ساعة يد":["سوار ذكي","ساعة ذكية","منبّه"],
+    "سوار ذكي":["ساعة يد","ساعة ذكية","عداد خطى"],
+    "دراجة":["سكوتر","لوح تزلج","دراجة كهربائية"],
+    "سكوتر":["دراجة","لوح تزلج","سكوتر كهربائي"]
+  };
 
   // ===== State =====
   let state = {
@@ -373,11 +469,15 @@ input:focus,select:focus,textarea:focus{border-color:#ffe29a}
     buildOddGrid();
   }
   function buildOddGrid(){
+    // اعرض الأسماء بترتيب عرض عشوائي مستقل عن ترتيب الإدخال
+    state.displayOrder = shuffle(state.players.map((_,i)=>i));
     const grid = document.getElementById('oddGrid'); if(!grid) return; grid.innerHTML='';
-    state.players.forEach((name,idx)=>{
+    state.displayOrder.forEach((pIdx)=>{
       const div = document.createElement('div');
-      div.className = 'tile'; div.id = 'tile_'+idx; div.textContent = name; grid.appendChild(div);
+      div.className = 'tile'; div.id = 'tile_'+pIdx; div.textContent = state.players[pIdx];
+      grid.appendChild(div);
     });
+  });
   }
   function startOddShow(){
     const startBtn = document.getElementById('startOddShow');
@@ -385,21 +485,35 @@ input:focus,select:focus,textarea:focus{border-color:#ffe29a}
     const slot     = document.getElementById('oddCycle');
     if(startBtn) startBtn.classList.add('hidden');
 
-    // حلقة تمر على كل الأسماء عدة دورات ثم تتوقف على المختلف
-    let i = 0; const names = [...state.players];
-    const totalSpins = names.length * 2 + Math.floor(Math.random()*names.length); // دورانين تقريبًا
-    const finalIndex = state.oddIndex;
+    const orderIdx = state.displayOrder || state.players.map((_,i)=>i);
+    const names = orderIdx.map(i=>state.players[i]);
+    const finalIdxInOrder = orderIdx.indexOf(state.oddIndex); // يضمن عدم ثباته على آخر واحد
 
-    const tick = (step, delay)=>{
-      // إزالة التمييز السابق
+    const totalSpins = names.length * 2 + Math.floor(Math.random()*names.length);
+
+    const tick = (step)=>{
       const prev = document.querySelector('.tile.active'); if(prev) prev.classList.remove('active');
-      const idx = step % names.length; const tile = document.getElementById('tile_'+idx); if(tile) tile.classList.add('active');
+      const idx = step % names.length; const realIdx = orderIdx[idx];
+      const tile = document.getElementById('tile_'+realIdx); if(tile) tile.classList.add('active');
       if(slot) slot.textContent = names[idx];
       if(step < totalSpins){
-        // تسريع بسيط ثم تبطيء قبل التوقف
         const nextDelay = step < names.length ? 120 : (step > totalSpins - names.length ? 220 : 160);
-        setTimeout(()=> tick(step+1, nextDelay), nextDelay);
+        setTimeout(()=> tick(step+1), nextDelay);
       } else {
+        // اقفز تدريجيًا حتى نصل لموضع المختلف داخل ترتيب العرض
+        const hop = (cur)=>{
+          const p = document.querySelector('.tile.active'); if(p) p.classList.remove('active');
+          const real = orderIdx[cur];
+          const t = document.getElementById('tile_'+real); if(t) t.classList.add('active');
+          if(slot) slot.innerHTML = `🎯 <b>${names[cur]}</b>`;
+          if(cur === finalIdxInOrder){ if(nextBtn) nextBtn.classList.remove('hidden'); }
+          else setTimeout(()=> hop((cur+1)%names.length), 240);
+        };
+        hop(step % names.length);
+      }
+    };
+    tick(0);
+  } else {
         // انتقال تدريجي حتى نصل للمختلف
         const hop = (cur)=>{
           const p = document.querySelector('.tile.active'); if(p) p.classList.remove('active');
@@ -432,13 +546,73 @@ input:focus,select:focus,textarea:focus{border-color:#ffe29a}
 
   // ===== Guess (only odd sees this) =====
   function buildGuessOptions(){
-    // create 4 options: correct base + 3 distractors from same category (unique, not odd word)
-    const correct=state.pair.base; const pack=PACKS[state.category].flat(); // flatten words
-    const pool=[...new Set(pack.filter(w=>w!==correct && w!==state.pair.odd))];
-    const distractors=shuffle(pool).slice(0,3);
-    state.guessOptions=shuffle([correct,...distractors]); state.selectedGuess=null; state.guessCorrect=null;
+    const correct = state.pair.base;      // كلمة الأغلبية (الإجابة الصحيحة)
+    const oddWord = state.pair.odd;       // كلمة المختلف (لا نظهرها أبداً بين الخيارات)
+
+    // 1) اجلب حوض مرشّحات من نفس البيئة (SIMILAR) أو من نفس التصنيف كنسخة احتياط
+    let pool = [];
+    if (SIMILAR[correct] && SIMILAR[correct].length){
+      pool = SIMILAR[correct].slice();
+    } else {
+      const pack = PACKS[state.category].flat();
+      pool = [...new Set(pack)];
+    }
+
+    // 2) نظّف الحوض: لا نسمح بتكرار ولا بالكلمتين الأساسيتين
+    const cleaned = [...new Set(pool)].filter(w => w !== correct && w !== oddWord);
+
+    // 3) لو العدد أقل من المطلوب، كمّل من كلمات نفس التصنيف بدون تكرار
+    const TARGET_TOTAL = 8;      // إجمالي الخيارات الظاهرة (صحيحة + مشتتات)
+    const NEED_DISTRACTORS = TARGET_TOTAL - 1; // لأن وحدة منهم ستكون الصحيحة
+
+    let distractors = shuffle(cleaned).slice(0, NEED_DISTRACTORS);
+    if (distractors.length < NEED_DISTRACTORS){
+      const extraPool = PACKS[state.category]
+        .flat()
+        .filter(w => w !== correct && w !== oddWord && !distractors.includes(w));
+      const toTake = Math.min(NEED_DISTRACTORS - distractors.length, extraPool.length);
+      distractors = distractors.concat(shuffle(extraPool).slice(0, toTake));
+    }
+
+    // 4) ابنِ قائمة الخيارات النهائية: تحتوي الصحيحة مرة واحدة فقط + مشتتات قريبة
+    state.guessOptions = shuffle([correct, ...distractors]);
+    state.selectedGuess = null; state.guessCorrect = null;
+
+    // 5) اعرض الشبكة 4 أعمدة (2 صف × 4 أعمدة على الأغلب)
+    const box = document.getElementById('choices'); box.innerHTML = '';
+    state.guessOptions.forEach(w => {
+      const b = el('button', 'choice', w); b.type = 'button';
+      b.onclick = () => {
+        state.selectedGuess = w;
+        document.querySelectorAll('.choice').forEach(x => x.classList.remove('selected'));
+        b.classList.add('selected');
+        document.getElementById('confirmGuess').disabled = false;
+      };
+      box.appendChild(b);
+    });
+    document.getElementById('confirmGuess').disabled = true;
+  }
+    // تأكد من وجود بدائل كافية
+    if(pool.length < 3){
+      const fallback = PACKS[state.category].flat().filter(w=>w!==correct && w!==oddWord && !pool.includes(w));
+      pool = pool.concat(shuffle(fallback).slice(0, 3 - pool.length));
+    }
+    const distractors = shuffle(pool).slice(0,3);
+    state.guessOptions = shuffle([correct, ...distractors]);
+    state.selectedGuess=null; state.guessCorrect=null;
+
     const box=$('#choices'); box.innerHTML='';
-    state.guessOptions.forEach(w=>{ const b=el('button','choice',w); b.onclick=()=>{ state.selectedGuess=w; document.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); $('#confirmGuess').disabled=false; }; box.appendChild(b); });
+    state.guessOptions.forEach(w=>{
+      const b=el('button','choice',w); b.type='button';
+      b.onclick=()=>{
+        state.selectedGuess=w;
+        document.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));
+        b.classList.add('selected'); $('#confirmGuess').disabled=false;
+      };
+      box.appendChild(b);
+    });
+    $('#confirmGuess').disabled=true;
+  }; box.appendChild(b); });
     $('#confirmGuess').disabled=true;
   }
 
